@@ -627,3 +627,235 @@ body {
   color: #9aaba0;
   margin-bottom: 8px;
 }
+
+/* Illustrations (OpenMoji) - <img> needs explicit sizing since font-size no longer drives box size */
+.dish-emoji,
+.cart-item-emoji,
+.modal-item-emoji {
+  width: 1em;
+  height: 1em;
+  object-fit: contain;
+  display: inline-block;
+}
+
+.cart-icon-img {
+  width: 28px;
+  height: 28px;
+  object-fit: contain;
+  display: inline-block;
+}
+
+.eta-icon-img {
+  width: 16px;
+  height: 16px;
+  object-fit: contain;
+  display: inline-block;
+  vertical-align: middle;
+}
+
+.success-icon-img {
+  width: 28px;
+  height: 28px;
+  object-fit: contain;
+  display: inline-block;
+}
+
+.calories-icon {
+  width: 0.85em;
+  height: 0.85em;
+  object-fit: contain;
+  display: inline-block;
+  vertical-align: -0.1em;
+}
+
+.dish-calories {
+  font-size: 0.75rem;
+  color: #9aaba0;
+  font-weight: 500;
+  display: inline-flex;
+  align-items: center;
+  gap: 3px;
+}
+
+.cart-totals-row.calories {
+  color: #9aaba0;
+  font-style: italic;
+  font-size: 0.8rem;
+}
+
+/* Combo grouping in Cart / PaymentModal */
+.combo-group {
+  border: 1.5px solid #00c1b2;
+  border-radius: 6px;
+  padding: 10px;
+  background: #f0fbfa;
+  margin-bottom: 10px;
+}
+
+.combo-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  background: #00c1b2;
+  color: white;
+  font-size: 0.7rem;
+  font-weight: 800;
+  padding: 2px 8px;
+  border-radius: 999px;
+  margin-bottom: 8px;
+}
+
+.combo-badge--7 {
+  background: #008f84;
+}
+
+.combo-group-total {
+  display: flex;
+  justify-content: space-between;
+  font-size: 0.75rem;
+  color: #008f84;
+  font-weight: 700;
+  margin-top: 6px;
+  padding-top: 6px;
+  border-top: 1px dashed #b8ebe5;
+}
+
+/* ComboBuilder modal */
+.combo-builder-btn {
+  margin-left: auto;
+  background: #00c1b2;
+  color: white;
+  border-color: #00c1b2;
+}
+
+.combo-slots {
+  display: flex;
+  gap: 12px;
+  margin-bottom: 20px;
+}
+
+.combo-slot {
+  flex: 1;
+  border: 1.5px dashed #d8d4cf;
+  border-radius: 8px;
+  padding: 12px;
+  text-align: center;
+  cursor: pointer;
+}
+
+.combo-slot.active {
+  border-color: #00c1b2;
+  background: #e6faf8;
+}
+
+.combo-slot.filled {
+  border-style: solid;
+  border-color: #00c1b2;
+}
+
+.combo-slot-label {
+  font-size: 0.75rem;
+  font-weight: 700;
+  color: #6b7c71;
+  margin-bottom: 6px;
+}
+
+.combo-slot-dish {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+  font-size: 0.8rem;
+  font-weight: 600;
+}
+
+.combo-slot-emoji {
+  width: 1.6rem;
+  height: 1.6rem;
+  object-fit: contain;
+}
+
+.combo-slot-empty {
+  font-size: 0.8rem;
+  color: #9aaba0;
+}
+
+.combo-builder-grid {
+  max-height: 260px;
+  overflow-y: auto;
+  margin-bottom: 16px;
+}
+
+.combo-builder-grid .dish-card {
+  cursor: pointer;
+}
+
+/* Promo banner (static) */
+.promo-banner {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  background: linear-gradient(135deg, #e6faf8 0%, #d4f5f1 100%);
+  border: 1px solid #b8ebe5;
+  border-radius: 8px;
+  padding: 12px 16px;
+  margin-bottom: 20px;
+  font-size: 0.85rem;
+  color: #008f84;
+  font-weight: 600;
+}
+
+.promo-banner-icon {
+  width: 1.3rem;
+  height: 1.3rem;
+  flex-shrink: 0;
+}
+
+.promo-banner-dismiss {
+  margin-left: auto;
+  background: none;
+  border: none;
+  cursor: pointer;
+  color: #008f84;
+  font-size: 0.9rem;
+}
+
+/* Combo toast (contextual) */
+.combo-toast {
+  position: fixed;
+  bottom: 24px;
+  right: 24px;
+  z-index: 200;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 14px 18px;
+  border-radius: 8px;
+  background: white;
+  box-shadow: 0 8px 24px rgba(26, 39, 31, 0.18);
+  font-size: 0.875rem;
+  font-weight: 600;
+  animation: toast-in 0.2s ease-out;
+}
+
+.combo-toast--confirm {
+  border-left: 4px solid #00c1b2;
+  color: #1a271f;
+}
+
+.combo-toast--suggest {
+  border-left: 4px solid #9aaba0;
+  color: #1a271f;
+}
+
+.combo-toast-dismiss {
+  background: none;
+  border: none;
+  cursor: pointer;
+  color: #9aaba0;
+}
+
+@keyframes toast-in {
+  from { opacity: 0; transform: translateY(8px); }
+  to { opacity: 1; transform: translateY(0); }
+}
