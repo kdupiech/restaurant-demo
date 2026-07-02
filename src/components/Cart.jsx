@@ -1,7 +1,24 @@
-export default function Cart({ cart, onRemove, onCheckout }) {
-  const subtotal = cart.reduce((sum, item) => sum + item.price * item.quantity, 0);
+import Illustration from "./Illustration";
+import { openmojiUrl, UI_ICONS } from "../lib/openmoji";
+import { computeCombos, computeTax } from "../lib/combos";
 
-  const tax = subtotal * 0.20;
+function CartLineItem({ line, onRemove }) {
+  return (
+    <li className="cart-item">
+      <Illustration className="cart-item-emoji" src={line.illustration} fallback={line.emoji} alt={line.name} />
+      <div className="cart-item-details">
+        <span className="cart-item-name">{line.name}</span>
+        <span className="cart-item-qty">x{line.quantity}</span>
+      </div>
+      <span className="cart-item-price">€{(line.price * line.quantity).toFixed(2)}</span>
+      <button className="remove-btn" onClick={() => onRemove(line.cartLineId)}>✕</button>
+    </li>
+  );
+}
+
+export default function Cart({ cart, onRemove, onCheckout }) {
+  const { combos, leftovers, subtotal, totalCalories } = computeCombos(cart);
+  const tax = computeTax(subtotal);
   const total = subtotal + tax;
 
   return (
@@ -11,19 +28,35 @@ export default function Cart({ cart, onRemove, onCheckout }) {
       {cart.length === 0 ? (
         <p className="cart-empty">No items yet.</p>
       ) : (
-        <ul className="cart-list">
-          {cart.map((item) => (
-            <li key={item.id} className="cart-item">
-              <span className="cart-item-emoji">{item.emoji}</span>
-              <div className="cart-item-details">
-                <span className="cart-item-name">{item.name}</span>
-                <span className="cart-item-qty">x{item.quantity}</span>
+        <>
+          {combos.map((combo) => (
+            <div key={combo.comboId} className="combo-group">
+              <span className={`combo-badge ${combo.shape === 3 ? "combo-badge--7" : ""}`}>
+                Combo -{Math.round(combo.discountRate * 100)}%
+              </span>
+              <ul className="cart-list">
+                {combo.lines.map((line) => (
+                  <CartLineItem key={line.cartLineId} line={line} onRemove={onRemove} />
+                ))}
+              </ul>
+              <div className="combo-group-total">
+                <span>
+                  <Illustration className="calories-icon" src={openmojiUrl(UI_ICONS.fire.codepoint)} fallback={UI_ICONS.fire.fallback} alt="calories" />
+                  {" "}{combo.comboCalories} kcal
+                </span>
+                <span>€{combo.itemsSubtotal.toFixed(2)} → €{combo.comboTotal.toFixed(2)}</span>
               </div>
-              <span className="cart-item-price">€{(item.price * item.quantity).toFixed(2)}</span>
-              <button className="remove-btn" onClick={() => onRemove(item.id)}>✕</button>
-            </li>
+            </div>
           ))}
-        </ul>
+
+          {leftovers.length > 0 && (
+            <ul className="cart-list">
+              {leftovers.map((line) => (
+                <CartLineItem key={line.cartLineId} line={line} onRemove={onRemove} />
+              ))}
+            </ul>
+          )}
+        </>
       )}
 
       <div className="cart-totals">
@@ -39,6 +72,12 @@ export default function Cart({ cart, onRemove, onCheckout }) {
           <span>Total</span>
           <span>€{total.toFixed(2)}</span>
         </div>
+        {cart.length > 0 && (
+          <div className="cart-totals-row calories">
+            <span>Estimated</span>
+            <span>~{totalCalories} kcal</span>
+          </div>
+        )}
       </div>
 
       <button
